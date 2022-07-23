@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+
+    stages {
+         stage('Checkout') {
+            steps {
+                git branch: 'main',url: 'https://github.com/emcdanie/hackprac.git'
+            }
+        }  
+        stage('Exexuting kubectl') {
+            steps {
+                echo 'Exexuting kubectl'
+                withKubeConfig([credentialsId: 'kube-az-credentials']) {
+                    sh 'kubectl apply -f kubernetes/1_hackprac_test_deployment.yaml'
+                    sh 'kubectl apply -f kubernetes/2_hackprac_service.yaml'
+                }
+            }
+        }
+    }
+}
