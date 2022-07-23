@@ -1,5 +1,5 @@
 # My Insurance App
-
+elleta is awesome
 ## Install Dependencies
 - pip3 install -r requirements.txt
   - If you have old version of project: 
