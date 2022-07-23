@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myinsuranceappdeployment
+  labels:
+    app: hackprac
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: hackprac
+  template:
+    metadata:
+      labels:
+        app: hackprac
+    spec:
+      containers:
+      - name: app
+        image: elletamc/hackprac:latest
+        ports:
+        - name: http
+          containerPort: 5000
