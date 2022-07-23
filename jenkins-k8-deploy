@@ -30,19 +30,26 @@ pipeline {
         stage('Create image') {
             steps {
                 echo 'creating image...'
-                sh 'docker build -t elletamc.azurecr.io/hackprac:latest -f Dockerfile . .'
+                //sh 'docker build -t 618383339/final_cs:myinsuranceapp -f Dockerfile .'
+                sh 'docker build -t elletamc.azurecr.io/hackprac:latest -f Dockerfile .'
             }
         } 
         stage('Publish image') {
             steps {
                 echo 'pushing image..'
-                withDockerRegistry([ credentialsId: "acr-credentials", url: "elletamc.azurecr.io" ]) {
+                //withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
+                //    sh 'docker push 618383339/final_cs:myinsuranceapp'
+                //}
+                 withDockerRegistry([ credentialsId: "acr-credentials", url: "elletamc.azurecr.io" ]) {
                     sh 'docker push elletamc.azurecr.io/hackprac:latest'
+                }
             }
         }
         stage('Apply Kubernetes ') {
             steps {
                 withKubeConfig([credentialsId: 'k8-credentials']) {
+                    //sh 'kubectl apply -f kubernetes/myapp_docker_deploy.yaml'
+                    //sh 'kubectl apply -f kubernetes/myapp_docker_service.yaml'
                     sh 'kubectl apply -f kubernetes/3_hackprac_deployment_az.yaml'
                     sh 'kubectl apply -f kubernetes/4_hackprac_service_az.yaml'
                     sh 'kubectl port-forward service/hackprac 5000:5000 &'
