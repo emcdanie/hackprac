@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: myinsuranceapp
+  name: hackprac
   labels:
-    app: app
+    app: hackprac
 spec:
   selector:
-    app: myinsuranceapp
+    app: hackprac
   type: LoadBalancer # for expose as loadbalancer
   # type: NodePort # for expose as nodeport
   ports:

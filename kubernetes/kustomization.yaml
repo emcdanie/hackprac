@@ -1,0 +1,5 @@
+resources:
+  - 1_hackprac_test_deployment.yaml
+  - 2_hackprac_service.yaml
+  - 3_hackprac_deployment_az.yaml
+  - 4_hackprac_service_az.yaml
