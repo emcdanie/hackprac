@@ -30,7 +30,7 @@ pipeline {
         stage('Create image') {
             steps {
                 echo 'creating image...'
-                sh 'docker build -t elletamc/hackprac:latest -f Dockerfile .'
+                sh 'docker build -t elletamc/hackprac -f Dockerfile .'
             }
         } 
         stage('Publish image') {
@@ -47,8 +47,8 @@ pipeline {
                 withKubeConfig([credentialsId: 'k8-credentials']) {
                     sh 'kubectl apply -f kubernetes/3_hackprac_deployment_az.yaml'
                     sh 'kubectl apply -f kubernetes/4_hackprac_service_az.yaml'
-                    sh 'kubectl port-forward service/python-package-flask-test-service 5000:5000 &'
-                       }
+                    sh 'kubectl port-forward service/hackprac 5000:5000 &'
+                }
             }
         }
         stage('External acceptance tests') {
