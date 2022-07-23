@@ -40,6 +40,7 @@ pipeline {
                     sh 'docker push elletamc/hackprac:latest'
                 }
             }
+        }
         stage('Exexuting kubectl') {
             steps {
                 echo 'Exexuting kubectl'
