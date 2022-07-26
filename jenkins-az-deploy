@@ -44,7 +44,7 @@ pipeline {
         stage('Exexuting kubectl') {
             steps {
                 echo 'Exexuting kubectl'
-                withKubeConfig([credentialsId: 'k8-credentials']) {
+                withKubeConfig([credentialsId: 'k8-credentials2']) {
                     sh 'kubectl apply -f kubernetes/3_hackprac_deployment_az.yaml'
                     sh 'kubectl apply -f kubernetes/4_hackprac_service_az.yaml'
                     sh 'kubectl port-forward service/python-package-flask-test-service 5000:5000 &'
