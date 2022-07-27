@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hackprac
+  labels:
+    app: hackpra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hackprac
+  template:
+    metadata:
+      labels:
+        app: hackprac
+    spec:
+      imagePullSecrets:
+      - name: acr-secret 
+      containers:
+      - name: hackprac
+        image: elletamc.azurecr.io/elletamchackprac:v1
+        ports:
+        - name: http
+          containerPort: 5000
