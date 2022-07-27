@@ -17,7 +17,7 @@ spec:
       imagePullSecrets:
       - name: acr-secret 
       containers:
-      - name: hackprac-deploy-terraform
+      - name: hackprac-deployment-az
         image: elletamc.azurecr.io/elletamchackprac:v1
         ports:
         - name: http
