@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: hackprac
   labels:
-    app: hackpra
+    app: hackprac
 spec:
   replicas: 1
   selector:
@@ -17,7 +17,7 @@ spec:
       imagePullSecrets:
       - name: acr-secret 
       containers:
-      - name: hackprac
+      - name: elletamc
         image: elletamc.azurecr.io/elletamchackprac:v1
         ports:
         - name: http
