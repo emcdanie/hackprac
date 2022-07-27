@@ -18,7 +18,7 @@ spec:
       - name: acr-secret 
       containers:
       - name: hackprac-deployment-az
-        image: elletamc.azurecr.io/elletamchackprac:v1
+        image: elletamc.azurecr.io/hackprac:v1 
         ports:
         - name: http
           containerPort: 5000
