@@ -6,3 +6,4 @@ WORKDIR /
 RUN python3 project/init/init_db.py
 CMD ["python3", "runserver.py"]
 EXPOSE 5000
+
