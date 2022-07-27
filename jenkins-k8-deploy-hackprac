@@ -30,20 +30,20 @@ pipeline {
         stage('Create image') {
             steps {
                 echo 'creating image...'
-                sh 'docker build -t elletamc.azurecr.io/hackprac:v1 -f Dockerfile .'
+                sh 'docker build -t elletamc.azurecr.io/elletamchackprac:v1 -f Dockerfile .'
             }
         } 
         stage('Publish image') {
             steps {
                 echo 'pushing image..'
-                 withDockerRegistry([ credentialsId: "acr-credentials", url: "http://elletamc.azurecr.io" ]) {
-                    sh 'docker push elletamc.azurecr.io/hackprac:v1'
+                 withDockerRegistry([ credentialsId: "k8-credentials3", url: "elletamc.azurecr.io" ]) {
+                    sh 'docker push elletamc.azurecr.io/elletamchackprac:v1'
                 }
             }
         }
         stage('Apply Kubernetes ') {
             steps {
-                withKubeConfig([credentialsId: 'k8-credentials2']) {
+                withKubeConfig([credentialsId: 'k8-credentials3']) {
                     sh 'kubectl apply -f kubernetes/3_hackprac_deployment_az.yaml'
                     sh 'kubectl apply -f kubernetes/4_hackprac_service_az.yaml'
                     sh 'kubectl port-forward service/hackprac 5000:5000 &'

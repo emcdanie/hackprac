@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'develop',url: 'https://github.com/emcdanie/hackprac.git'
+                git branch: 'deploy',url: 'https://github.com/emcdanie/hackprac.git'
 	        }
         }        
         stage('Requirements') {
@@ -30,14 +30,14 @@ pipeline {
         stage('Create image') {
             steps {
                 echo 'creating image...'
-                sh 'docker build -t elletamc/hackprac -f Dockerfile .'
+                sh 'docker build -t elletamc.azurecr.io/elletamchackprac:v1 -f Dockerfile .'
             }
         } 
         stage('Publish image') {
             steps {
                 echo 'pushing image...'
-                withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "https://elletamc.azurecr.io" ]) {
-                    sh 'docker push elletamc/hackprac:latest'
+                withDockerRegistry([ credentialsId: "azure-credentials2", url: "https://elletamc.azurecr.io" ]) {
+                    sh 'docker push elletamc.azurecr.io/elletamchackprac:v1'
                 }
             }
         }
@@ -45,7 +45,7 @@ pipeline {
             steps {
                 echo 'Exexuting kubectl'
                 withKubeConfig([credentialsId: 'k8-credentials2']) {
-                    sh 'kubectl apply -f kubernetes/3_hackprac_deployment_az.yaml'
+                    sh "kubectl apply -f kubernetes/3_hackprac_deployment_az.yaml"
                     sh 'kubectl apply -f kubernetes/4_hackprac_service_az.yaml'
                     sh 'kubectl port-forward service/python-package-flask-test-service 5000:5000 &'
                        }
@@ -54,7 +54,7 @@ pipeline {
         stage('External acceptance tests') {
             steps{
                 echo 'External acceptance tests...'
-                sh 'python3 -m unittest discover -s tests/acceptance-ext -v'
+                sh 'python3 -m unittest discover -s tests/acceptance-request -v'
             }
         }
     }
